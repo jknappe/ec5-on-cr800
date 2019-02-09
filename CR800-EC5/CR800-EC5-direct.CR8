@@ -1,0 +1,62 @@
+'-----------------------------------------------
+' Preamble
+'-----------------------------------------------
+
+'Logger type: CR800 
+'Sensor type: EC5
+'Multiplexer: no
+
+'Program author: Jan Knappe
+'Contact: jan.knappe@gmail.com
+
+'-----------------------------------------------
+' Wiring
+'-----------------------------------------------
+
+'see sensor documentation
+  
+'-----------------------------------------------
+' Declare Variables and Units
+'-----------------------------------------------
+
+'declare constants
+  'logger specific constants
+  Const ScanRate = 60  'Time interval in seconds for scans
+  
+'declare variables
+  Public E5 
+   	
+'declare units
+  Units E5 = V
+  
+'-----------------------------------------------
+' Create data table
+'-----------------------------------------------
+
+DataTable(Data,1,-1)	
+  DataInterval(0,ScanRate,sec,10) 
+  
+  Sample(1,E5,FP2)
+  
+EndTable
+
+'-----------------------------------------------
+' Main Program
+'-----------------------------------------------
+
+SequentialMode
+	
+BeginProg
+  Scan(ScanRate,sec,1,0)
+  
+  'VWC on EC5 sensors	on datalogger
+  BrHalf(E5,1,mV2500,4,1,1,2500,False,10000,_50Hz,1,0)
+  
+CallTable(Data)
+
+NextScan
+EndProg
+
+'-----------------------------------------------
+' End
+'-----------------------------------------------
